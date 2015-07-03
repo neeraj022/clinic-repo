@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:context="http://www.springframework.org/schema/context"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+    http://www.springframework.org/schema/beans/spring-beans-3.2.xsd
+    http://www.springframework.org/schema/context
+    http://www.springframework.org/schema/context/spring-context-3.2.xsd">
+
+
+	<bean name="countryMsService" class="com.neeraj.clinic.server.service.CountryMsService">
+		<property name="countryMsDAO" ref="countryMsDAO" />
+	</bean>
+	<bean name="stateMsService" class="com.neeraj.clinic.server.service.StateMsService">
+		<property name="stateMsDAO" ref="stateMsDAO" />
+	</bean>
+	<bean name="districtMsService" class="com.neeraj.clinic.server.service.DistrictMsService">
+		<property name="districtMsDAO" ref="districtMsDAO" />
+	</bean>
+	<bean name="areaMsService" class="com.neeraj.clinic.server.service.AreaMsService">
+		<property name="areaMsDAO" ref="areaMsDAO" />
+	</bean>
+	<bean name="blockMsService" class="com.neeraj.clinic.server.service.BlockMsService">
+		<property name="blockMsDAO" ref="blockMsDAO" />
+	</bean>
+	<bean name="storageAttribsMsService" class="com.neeraj.clinic.server.service.StorageAttribsMsService">
+		<property name="storageAttribsMsDAO" ref="storageAttribsMsDAO" />
+	</bean>
+	<bean name="brandMsService" class="com.neeraj.clinic.server.service.BrandMsService">
+		<property name="brandMsDAO" ref="brandMsDAO" />
+	</bean>
+	<bean name="medicineMsService" class="com.neeraj.clinic.server.service.MedicineMsService">
+		<property name="medicineMsDAO" ref="medicineMsDAO" />
+	</bean>
+	<bean name="inventoryService" class="com.neeraj.clinic.server.service.InventoryService">
+		<property name="inventoryDAO" ref="inventoryDAO" />
+	</bean>
+	<bean name="peopleMsService" class="com.neeraj.clinic.server.service.PeopleMsService">
+		<property name="peopleMsDAO" ref="peopleMsDAO" />
+	</bean>
+</beans>		
+		
+		

@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.*?>
+<?import java.util.*?>
+<?import javafx.collections.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.paint.*?>
+
+<BorderPane fx:id="mainBorderPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="638.0" prefWidth="788.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1">
+  <top>
+    <HBox id="hbox-normal" prefHeight="31.0" prefWidth="788.0">
+      <children>
+        <Button id="retrieve-button" fx:id="retrieve" mnemonicParsing="false" text="Retrieve" />
+        <Button id="clear-button" fx:id="clear" mnemonicParsing="false" text="Clear" />
+      </children>
+    </HBox>
+  </top>
+   <center>
+      <VBox prefHeight="200.0" prefWidth="100.0" BorderPane.alignment="CENTER">
+         <children>
+          <TitledPane fx:id="queryPanel" animated="false" prefHeight="131.0" text="untitled">
+            <content>
+              <HBox fx:id="queryPanelHBox" prefHeight="87.0" prefWidth="788.0">
+                <children>
+                  <VBox prefHeight="102.0" prefWidth="394.0">
+                    <children>
+                      <HBox id="hbox-right" alignment="CENTER_RIGHT" prefHeight="50.0" prefWidth="395.0">
+                        <children>
+                          <Label fx:id="medicineL" text="Label" />
+                          <TextField id="medicineL" fx:id="medicineT" prefWidth="200.0" />
+                          <Button id="lookup-button" fx:id="medicineB" mnemonicParsing="false" text="" />
+                        </children>
+                      </HBox>
+                      <HBox id="hbox-right" alignment="CENTER_RIGHT" prefHeight="50.0" prefWidth="311.0">
+                        <children>
+                          <Label fx:id="storageL" text="Label" />
+                          <TextField fx:id="storageT" prefWidth="200.0" />
+                          <Button id="lookup-button" fx:id="storageB" mnemonicParsing="false" text="" />
+                        </children>
+                      </HBox>
+                      <HBox id="HBox" alignment="BOTTOM_RIGHT" spacing="5.0">
+                        <children>
+                          <Slider fx:id="locationSlider" prefWidth="100.0" />
+                        </children>
+                      </HBox>
+                    </children>
+                  </VBox>
+                  <VBox prefHeight="102.0" prefWidth="394.0">
+                    <children>
+                      <HBox id="hbox-right" fx:id="purchaseHBox" alignment="CENTER_RIGHT" prefHeight="50.0" prefWidth="289.0">
+                        <children>
+                          <Label fx:id="purchaseDateL" text="Label" />
+                          <Button id="gt-button" fx:id="purchaseDateGtB" maxHeight="20.0" maxWidth="20.0" mnemonicParsing="false" prefHeight="20.0" prefWidth="20.0" text="" />
+                          <Button id="lt-button" fx:id="purchaseDateLtB" maxHeight="20.0" maxWidth="20.0" mnemonicParsing="false" prefHeight="20.0" prefWidth="20.0" text="" />
+                        </children>
+                      </HBox>
+                      <HBox id="hbox-right" fx:id="expiryHBox" alignment="CENTER_RIGHT" prefHeight="50.0" prefWidth="289.0">
+                        <children>
+                          <Label fx:id="expiryDateL" text="Label" />
+                          <Button id="gt-button" fx:id="expiryDateGtB" mnemonicParsing="false" prefHeight="20.0" prefWidth="20.0" text="" />
+                          <Button id="lt-button" fx:id="expiryDateLtB" mnemonicParsing="false" text="" />
+                        </children>
+                      </HBox>
+                    </children>
+                  </VBox>
+                </children>
+              </HBox>
+            </content>
+          </TitledPane>
+          <TitledPane fx:id="detailsPanel" animated="false" collapsible="false" prefHeight="460.0" text="untitled">
+            <content>
+              <VBox id="vbox-normal" prefHeight="486.0" prefWidth="788.0">
+                <children>
+                  <HBox id="hbox-normal" alignment="CENTER" spacing="5.0">
+                    <children>
+                      <Button id="add-button" fx:id="add" mnemonicParsing="false" text="Add" translateX="-175.0" />
+                      <Label id="search-label" fx:id="searchL" text="Label" />
+                      <TextField fx:id="tableSearch" prefWidth="315.0" />
+                    </children>
+                  </HBox>
+                  <TableView id="table1" fx:id="invDtls" prefHeight="464.0" prefWidth="788.0">
+                    <columns>
+                      <TableColumn prefWidth="75.0" text="Column X" />
+                      <TableColumn prefWidth="75.0" text="Column X" />
+                    </columns>
+                  </TableView>
+                </children>
+              </VBox>
+            </content>
+          </TitledPane>
+         </children>
+      </VBox>
+   </center>
+</BorderPane>

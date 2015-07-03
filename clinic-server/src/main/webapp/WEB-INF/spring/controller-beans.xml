@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:context="http://www.springframework.org/schema/context"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+    http://www.springframework.org/schema/beans/spring-beans-3.2.xsd
+    http://www.springframework.org/schema/context
+    http://www.springframework.org/schema/context/spring-context-3.2.xsd">
+
+	<bean name="countryMsController" class="com.neeraj.clinic.server.controller.CountryMsController">
+		<property name="countryMsService" ref="countryMsService" />
+	</bean>
+	<bean name="stateMsController" class="com.neeraj.clinic.server.controller.StateMsController">
+		<property name="stateMsService" ref="stateMsService" />
+	</bean>
+	<bean name="districtMsController" class="com.neeraj.clinic.server.controller.DistrictMsController">
+		<property name="districtMsService" ref="districtMsService" />
+	</bean>
+	<bean name="areaMsController" class="com.neeraj.clinic.server.controller.AreaMsController">
+		<property name="areaMsService" ref="areaMsService" />
+	</bean>
+	<bean name="blockMsController" class="com.neeraj.clinic.server.controller.BlockMsController">
+		<property name="blockMsService" ref="blockMsService" />
+	</bean>
+	<bean name="storageAttribsMsController" class="com.neeraj.clinic.server.controller.StorageAttribsMsController">
+		<property name="storageAttribsMsService" ref="storageAttribsMsService" />
+	</bean>
+	<bean name="brandMsController" class="com.neeraj.clinic.server.controller.BrandMsController">
+		<property name="brandMsService" ref="brandMsService" />
+	</bean>
+	<bean name="medicineMsController" class="com.neeraj.clinic.server.controller.MedicineMsController">
+		<property name="medicineMsService" ref="medicineMsService" />
+	</bean>
+	<bean name="inventoryController" class="com.neeraj.clinic.server.controller.InventoryController">
+		<property name="inventoryService" ref="inventoryService" />
+	</bean>
+	<bean name="peopleMsController" class="com.neeraj.clinic.server.controller.PeopleMsController">
+		<property name="peopleMsService" ref="peopleMsService" />
+	</bean>
+
+</beans>		
+		
+		

@@ -1,0 +1,175 @@
+.background
+{
+	-fx-background-color: #3cb371 ;
+}
+
+
+ #main-pane{
+	-fx-background-image: url('../images/mainBackground.jpg');
+	-fx-background-position: center;
+	-fx-background-size: 835.5;
+    -fx-opacity: .8;
+} 
+
+
+
+/*
+#########################################################   hbox and vbox
+*/
+#hbox-normal {
+	-fx-spacing: 5;
+	-fx-padding: 5;
+}
+
+#hbox-center {
+	-fx-spacing: 5;
+	-fx-padding: 5;
+	-fx-alignment: center;
+}
+
+#hbox-right {
+	-fx-spacing: 5;
+	-fx-padding: 5;
+	-fx-alignment: center-right;
+}
+
+#hbox-left {
+	-fx-spacing: 5;
+	-fx-padding: 5;
+	-fx-alignment: center-left;
+}
+
+#vbox-normal {
+	-fx-spacing: 5;
+	-fx-padding: 5;
+}
+
+/*
+########################################################## labels
+*/
+
+#welcome-label{
+	-fx-font-size: 40;
+	-fx-text-fill: white;
+	-fx-font-family: arial;
+	-fx-font-weight: bolder;
+}
+
+#search-label
+{
+	-fx-graphic: url('../icons/search.png');
+	-fx-content-display: right;
+}
+
+#mandatory-label
+{
+	-fx-text-fill: #ff0000;
+}
+
+/*
+#########################################################  buttons
+*/
+.button{
+	-fx-background-color: #d2b48c;
+}
+.button:hover{
+	-fx-background-color: #deb887;
+}
+.button:pressed{
+	-fx-background-color: #8b4513;
+}
+
+#inventory-button
+{
+	-fx-graphic: url('../images/inventory.png') ;
+}
+
+#settings-button
+{
+	-fx-graphic: url('../images/settings.png') ;
+}
+
+#people-button
+{
+	-fx-graphic: url('../images/people.png') ;
+}
+
+#medicine-button
+{
+	-fx-graphic: url('../images/medicine.png') ;
+}
+
+#music-button
+{
+	-fx-graphic: url('../images/music.png') ;
+}
+
+#gt-button
+{
+	-fx-graphic: url('../icons/gt.png') ;
+}
+
+#lt-button
+{
+	-fx-graphic: url('../icons/lt.png') ;
+}
+#lookup-button
+{
+	-fx-graphic: url('../icons/lookup.png') ;
+}
+#add-button
+{
+	-fx-graphic: url('../icons/add.png');
+	-fx-content-display: right;
+}
+#clear-button
+{
+	-fx-graphic: url('../icons/clear.png');
+	-fx-content-display: right;
+}
+#retrieve-button
+{
+	-fx-graphic: url('../icons/retrieve.png');
+	-fx-content-display: right;
+}
+#ok-button
+{
+	-fx-graphic: url('../icons/ok.png');
+	-fx-content-display: right;
+}
+#cancel-button
+{
+	-fx-graphic: url('../icons/cancel.png');
+	-fx-content-display: right;
+}
+
+#save-button
+{
+	-fx-graphic: url('../icons/save.png');
+	-fx-content-display: right;
+}
+
+.pressed-button{
+	-fx-border-color: #8b4513;
+	-fx-border-width: 2;
+}
+
+.non-pressed-button{
+	-fx-border-color: transparent;
+}
+
+/*
+##############################################################  table color constraints
+*/
+.expired-date{
+	-fx-background-color:#CCCC52 ;
+}
+
+.almost-expired-date{
+	-fx-background-color: #FFFF99;
+}
+
+.about-to-expired-date{
+	-fx-background-color: #CCFF66;
+}
+

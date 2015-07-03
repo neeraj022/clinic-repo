@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import java.lang.*?>
+<?import javafx.scene.layout.*?>
+
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="370.0" prefWidth="252.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1">
+   <bottom>
+      <HBox id="hbox-center" prefHeight="50.0" prefWidth="296.0" BorderPane.alignment="CENTER">
+         <children>
+            <Button id="save-button" fx:id="save" mnemonicParsing="false" text="Button" />
+            <Button id="clear-button" fx:id="clear" mnemonicParsing="false" text="Button" />
+         </children>
+      </HBox>
+   </bottom>
+   <center>
+      <VBox prefHeight="254.0" prefWidth="296.0" BorderPane.alignment="CENTER">
+         <children>
+            <HBox id="hbox-right" prefHeight="32.0" prefWidth="600.0">
+               <children>
+                  <Label id="mandatory-label" fx:id="lotNoL" text="Label" />
+                  <TextField fx:id="lotNoT" prefWidth="113.0" />
+                  <Button id="lookup-button" fx:id="lotNoB" mnemonicParsing="false" />
+               </children>
+            </HBox>
+            <HBox id="hbox-right" prefHeight="30.0" prefWidth="252.0">
+               <children>
+                  <CheckBox fx:id="lotNoC" mnemonicParsing="false" text="CheckBox" />
+               </children>
+            </HBox>
+            <HBox id="hbox-right" prefHeight="32.0" prefWidth="600.0">
+               <children>
+                  <Label id="mandatory-label" fx:id="medicineL" text="Label" />
+                  <TextField fx:id="medicineT" prefWidth="113.0" />
+                  <Button id="lookup-button" fx:id="medicineB" mnemonicParsing="false" />
+               </children>
+            </HBox>
+            <HBox id="hbox-right" prefHeight="32.0" prefWidth="600.0">
+               <children>
+                  <Label id="mandatory-label" fx:id="locationL" text="Label" />
+                  <TextField fx:id="locationT" prefWidth="113.0" />
+                  <Button id="lookup-button" fx:id="locationB" mnemonicParsing="false" />
+               </children>
+            </HBox>
+            <HBox id="hbox-right" prefHeight="32.0" prefWidth="600.0">
+               <children>
+                  <Label id="mandatory-label" fx:id="purchaseDateL" text="Label" />
+                  <DatePicker fx:id="purchaseD" prefWidth="149.0" />
+               </children>
+            </HBox>
+            <HBox id="hbox-right" prefHeight="32.0" prefWidth="600.0">
+               <children>
+                  <Label id="mandatory-label" fx:id="expiryDateL" text="Label" />
+                  <DatePicker fx:id="expiryD" prefWidth="149.0" />
+               </children>
+            </HBox>
+            <HBox id="hbox-right" prefHeight="32.0" prefWidth="600.0">
+               <children>
+                  <Label id="mandatory-label" fx:id="unitL" text="Label" />
+                  <TextField fx:id="unitT" />
+               </children>
+            </HBox>
+            <HBox id="hbox-right" prefHeight="32.0" prefWidth="600.0">
+               <children>
+                  <Label id="mandatory-label" fx:id="costL" text="Label" />
+                  <TextField fx:id="costT" />
+               </children>
+            </HBox>
+            <HBox id="hbox-right" prefHeight="32.0" prefWidth="600.0">
+               <children>
+                  <Label fx:id="barcodeL" text="Label" />
+                  <TextField fx:id="barcodeT" />
+               </children>
+            </HBox>
+         </children>
+      </VBox>
+   </center>
+</BorderPane>

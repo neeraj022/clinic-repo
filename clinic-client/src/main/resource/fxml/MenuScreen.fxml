@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.*?>
+<?import java.util.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.paint.*?>
+
+<AnchorPane id="main-pane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="470.0" prefWidth="835.5" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/2.2">
+  <children>
+    <Label id="welcome-label" fx:id="mainScreenL" layoutY="80.0" prefHeight="42.0" prefWidth="478.5" text="Label" AnchorPane.leftAnchor="220.0" AnchorPane.rightAnchor="140.0" />
+    <Button id="inventory-button" fx:id="inventoryButton" layoutX="109.0" layoutY="235.0" mnemonicParsing="false" prefHeight="-1.0" text="" />
+    <Button id="settings-button" fx:id="settingsButton" cancelButton="false" defaultButton="false" layoutX="309.0" layoutY="235.0" mnemonicParsing="false" prefHeight="-1.0" text="" />
+    <Button id="people-button" layoutX="509.0" layoutY="235.0" mnemonicParsing="false" prefHeight="-1.0" text="" />
+    <Button id="medicine-button" layoutX="709.0" layoutY="235.0" mnemonicParsing="false" prefHeight="-1.0" text="" />
+    <Button id="music-button" layoutX="409.0" layoutY="335.0" mnemonicParsing="false" prefHeight="-1.0" text="" />
+  </children>
+</AnchorPane>
