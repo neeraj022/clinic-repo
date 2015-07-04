@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import com.neeraj.core.generics.GlobalController;
 import com.neeraj.core.generics.MyResponse;
 import com.neeraj.clinic.model.gen.Inventory;
+import com.neeraj.clinic.model.responsedtos.AddInventoryRequestDto;
 import com.neeraj.clinic.model.responsedtos.InventoryMainScreenRequestDto;
 import com.neeraj.clinic.server.service.InventoryService;
 
@@ -37,6 +38,14 @@ public class InventoryController extends GlobalController<Inventory> {
 	@ResponseBody
 	public MyResponse getLotNo() {
 		return inventoryService.getLotNo();
+
+	}
+	
+	
+	@RequestMapping(method = RequestMethod.POST, value = "/addinventory", produces = { "application/json" })
+	@ResponseBody
+	public String addInventory(@RequestBody AddInventoryRequestDto addInventoryRequestDto) {
+		return inventoryService.addInventory(addInventoryRequestDto);
 
 	}
 

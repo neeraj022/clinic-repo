@@ -9,7 +9,7 @@ public class Queries {
 			+ " strg.place as place, strg.roomNo as roomNo, strg.description as locDesc from Inventory inv,StorageAttribsMs strg, MedicineMs med "
 			+" where med.id=inv.medicineId and inv.storageId=strg.id ";
 	
-	public final String inv_LotNoQuerySQL = "select distinct inv.lot_No,inv.purchase_Dttm from Inventory inv";
-	public static final String inv_LotNoQuery = "select distinct inv.lotNo as lotNo,inv.purchaseDttm as purchaseDttm from Inventory inv";
+	public final String inv_LotNoQuerySQL = "select distinct inv.lot_No,inv.purchase_Dttm from Inventory inv order by inv.purchase_Dttm desc";
+	public static final String inv_LotNoQuery = "select distinct inv.lotNo as lotNo,inv.purchaseDttm as purchaseDttm from Inventory inv order by inv.purchaseDttm desc";
 
 }

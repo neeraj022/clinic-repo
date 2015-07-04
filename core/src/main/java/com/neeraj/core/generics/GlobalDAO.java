@@ -5,6 +5,7 @@ import java.lang.reflect.ParameterizedType;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -14,6 +15,7 @@ import org.hibernate.SessionFactory;
 import org.hibernate.criterion.Criterion;
 import org.hibernate.criterion.Order;
 import org.hibernate.criterion.ProjectionList;
+import org.hibernate.criterion.Restrictions;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.util.ReflectionUtils;
@@ -46,22 +48,28 @@ public class GlobalDAO<T> {
 		this.sessionFactory = sessionFactory;
 	}
 
-	public List<Object> search(HttpServletRequest httpServletRequest, List<Order> listOrder, List<Criterion> listRestriction) {
-		logger.debug(httpServletRequest.getParameterMap().toString());
+	public List<Object> search(Map<String, String[]> queryMap, List<Order> listOrder, List<Criterion> listRestriction) {
+		logger.debug(queryMap.toString());
 		Session session = this.getSession();
 		Criteria criteria = session.createCriteria(entityName);
+		//add basic conditions found in a map
+		for(Map.Entry<String, String[]> mapEntry : queryMap.entrySet())
+		{
+			Restrictions.eq(mapEntry.getKey(), mapEntry.getValue());
+		}
 		// add restrictions to session criteria
 		if (listRestriction != null) {
 			for (Criterion criterion : listRestriction) {
 				criteria.add(criterion);
 			}
 		}
+		// add order to the session criteria
 		if (listOrder != null) {
 			for (Order order : listOrder) {
 				criteria.addOrder(order);
 			}
 		}
-		// add order to the session criteria
+		
 		return criteria.list();
 	}
 
@@ -98,10 +106,16 @@ public class GlobalDAO<T> {
 			String insertDateMethodString = "setInsDttm";
 			Method insertDateMethod = ReflectionUtils.findMethod(persistentClass, insertDateMethodString, Date.class);
 			ReflectionUtils.invokeMethod(insertDateMethod, t, new Date());
+			String insertUserMethodString = "setInsUsrCd";
+			Method insertUserMethod = ReflectionUtils.findMethod(persistentClass, insertUserMethodString, String.class);
+			ReflectionUtils.invokeMethod(insertUserMethod, t, "1");
 		} else {
 			String updateDateMethodString = "setUpdDttm";
 			Method updateDateMethod = ReflectionUtils.findMethod(persistentClass, updateDateMethodString, Date.class);
 			ReflectionUtils.invokeMethod(updateDateMethod, t, new Date());
+			String updateUserMethodString = "setUpdUsrCd";
+			Method updateUserMethod = ReflectionUtils.findMethod(persistentClass, updateUserMethodString, String.class);
+			ReflectionUtils.invokeMethod(updateUserMethod, t, "1");
 		}
 	}
 

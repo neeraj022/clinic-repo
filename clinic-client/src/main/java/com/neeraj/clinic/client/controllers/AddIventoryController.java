@@ -1,5 +1,6 @@
 package com.neeraj.clinic.client.controllers;
 
+import java.math.BigDecimal;
 import java.net.URL;
 import java.time.ZoneId;
 import java.util.Date;
@@ -15,19 +16,24 @@ import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Alert;
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.DatePicker;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
-import javafx.scene.control.Alert.AlertType;
 
 import org.apache.log4j.Logger;
+import org.springframework.http.HttpMethod;
 
 import com.neeraj.clinic.client.commons.CommonLookups;
 import com.neeraj.clinic.model.gen.MedicineMs;
 import com.neeraj.clinic.model.gen.StorageAttribsMs;
+import com.neeraj.clinic.model.responsedtos.AddInventoryRequestDto;
+import com.neeraj.clinic.model.responsedtos.InventoryMainScreenResponseDto;
 import com.neeraj.clinic.model.responsedtos.LotNoResponseDto;
+import com.neeraj.core.generics.GlobalInteractionClient;
+import com.neeraj.core.generics.MyResponse;
 import com.neeraj.core.spring.ApplicationContextProvider;
 import com.sun.org.apache.xerces.internal.impl.xpath.regex.ParseException;
 
@@ -36,7 +42,8 @@ public class AddIventoryController implements Initializable {
 	@FXML
 	private Button medicineB, lotNoB, locationB, clear, save;
 	@FXML
-	private Label barcodeL, purchaseDateL, costL, unitL, expiryDateL, locationL, medicineL, lotNoL;
+	private Label barcodeL, purchaseDateL, costL, unitL, expiryDateL,
+			locationL, medicineL, lotNoL;
 	@FXML
 	private DatePicker purchaseD, expiryD;
 	@FXML
@@ -46,7 +53,7 @@ public class AddIventoryController implements Initializable {
 
 	private Long medicineId, locationId;
 	private String lotNo;
-	private Date purchaseDate,expiryDate;
+	private Date purchaseDate, expiryDate;
 
 	public AddIventoryController() {
 		logger.debug("Add Inventory Controller created");
@@ -62,17 +69,28 @@ public class AddIventoryController implements Initializable {
 	}
 
 	private void setNames() {
-		save.setText(ApplicationContextProvider.getMessage("label.global.save", null, null, Locale.US));
-		clear.setText(ApplicationContextProvider.getMessage("label.global.clear", null, null, Locale.US));
-		expiryDateL.setText(ApplicationContextProvider.getMessage("label.global.expiryDate", null, null, Locale.US));
-		medicineL.setText(ApplicationContextProvider.getMessage("label.global.medicine", null, null, Locale.US));
-		purchaseDateL.setText(ApplicationContextProvider.getMessage("label.global.purchaseDate", null, null, Locale.US));
-		locationL.setText(ApplicationContextProvider.getMessage("label.global.location", null, null, Locale.US));
-		lotNoL.setText(ApplicationContextProvider.getMessage("label.addinventory.lotNo", null, null, Locale.US));
-		lotNoC.setText(ApplicationContextProvider.getMessage("label.addinventory.autoGenLotNo", null, Locale.US));
-		unitL.setText(ApplicationContextProvider.getMessage("label.addinventory.units", null, null, Locale.US));
-		costL.setText(ApplicationContextProvider.getMessage("label.addinventory.perUnitCost", null, null, Locale.US));
-		barcodeL.setText(ApplicationContextProvider.getMessage("label.addinventory.barcode", null, null, Locale.US));
+		save.setText(ApplicationContextProvider.getMessage("label.global.save",
+				null, null, Locale.US));
+		clear.setText(ApplicationContextProvider.getMessage(
+				"label.global.clear", null, null, Locale.US));
+		expiryDateL.setText(ApplicationContextProvider.getMessage(
+				"label.global.expiryDate", null, null, Locale.US));
+		medicineL.setText(ApplicationContextProvider.getMessage(
+				"label.global.medicine", null, null, Locale.US));
+		purchaseDateL.setText(ApplicationContextProvider.getMessage(
+				"label.global.purchaseDate", null, null, Locale.US));
+		locationL.setText(ApplicationContextProvider.getMessage(
+				"label.global.location", null, null, Locale.US));
+		lotNoL.setText(ApplicationContextProvider.getMessage(
+				"label.addinventory.lotNo", null, null, Locale.US));
+		lotNoC.setText(ApplicationContextProvider.getMessage(
+				"label.addinventory.autoGenLotNo", null, Locale.US));
+		unitL.setText(ApplicationContextProvider.getMessage(
+				"label.addinventory.units", null, null, Locale.US));
+		costL.setText(ApplicationContextProvider.getMessage(
+				"label.addinventory.perUnitCost", null, null, Locale.US));
+		barcodeL.setText(ApplicationContextProvider.getMessage(
+				"label.addinventory.barcode", null, null, Locale.US));
 	}
 
 	private void setDefaults() {
@@ -81,15 +99,13 @@ public class AddIventoryController implements Initializable {
 		purchaseD.setDisable(true);
 		lotNoC.selectedProperty().addListener(new ChangeListener<Boolean>() {
 			@Override
-			public void changed(ObservableValue<? extends Boolean> arg0, Boolean oldValue, Boolean newValue) {
-				if(newValue)
-				{
+			public void changed(ObservableValue<? extends Boolean> arg0,
+					Boolean oldValue, Boolean newValue) {
+				if (newValue) {
 					lotNoB.setDisable(true);
 					lotNoT.setDisable(true);
 					purchaseD.setDisable(false);
-				}
-				else
-				{
+				} else {
 					purchaseD.setDisable(true);
 					lotNoB.setDisable(false);
 					lotNoT.setDisable(false);
@@ -115,8 +131,8 @@ public class AddIventoryController implements Initializable {
 				lotNoC.setSelected(false);
 				locationId = null;
 				medicineId = null;
-				purchaseDate=null;
-				expiryDate=null;
+				purchaseDate = null;
+				expiryDate = null;
 			}
 		});
 		medicineB.setOnAction(new EventHandler<ActionEvent>() {
@@ -131,8 +147,11 @@ public class AddIventoryController implements Initializable {
 				num.addListener(new ChangeListener<Number>() {
 
 					@Override
-					public void changed(ObservableValue<? extends Number> observable, Number oldValue, Number newValue) {
-						medicineT.setText(returnDto.getName() == null ? "" : returnDto.getName());
+					public void changed(
+							ObservableValue<? extends Number> observable,
+							Number oldValue, Number newValue) {
+						medicineT.setText(returnDto.getName() == null ? ""
+								: returnDto.getName());
 						medicineId = returnDto.getId();
 
 					}
@@ -152,8 +171,11 @@ public class AddIventoryController implements Initializable {
 				num.addListener(new ChangeListener<Number>() {
 
 					@Override
-					public void changed(ObservableValue<? extends Number> observable, Number oldValue, Number newValue) {
-						locationT.setText(returnDto.getPlace() + " : " + returnDto.getRoomNo());
+					public void changed(
+							ObservableValue<? extends Number> observable,
+							Number oldValue, Number newValue) {
+						locationT.setText(returnDto.getPlace() + " : "
+								+ returnDto.getRoomNo());
 						locationId = returnDto.getId();
 					}
 				});
@@ -172,20 +194,31 @@ public class AddIventoryController implements Initializable {
 				num.addListener(new ChangeListener<Number>() {
 
 					@Override
-					public void changed(ObservableValue<? extends Number> observable, Number oldValue, Number newValue) {
-						lotNoT.setText(returnDto.getLotNo() == null ? "" : returnDto.getLotNo());
+					public void changed(
+							ObservableValue<? extends Number> observable,
+							Number oldValue, Number newValue) {
+						lotNoT.setText(returnDto.getLotNo() == null ? ""
+								: returnDto.getLotNo());
 						lotNo = returnDto.getLotNo();
+						purchaseD.setValue(returnDto.getPurchaseDttm().toInstant().atZone(ZoneId.systemDefault() ).toLocalDate());
 
 					}
 				});
 			}
 		});
-		
+
 		save.setOnAction(new EventHandler<ActionEvent>() {
 
 			@Override
 			public void handle(ActionEvent event) {
 				if (validateBeforeSave()) {
+					GlobalInteractionClient<AddInventoryRequestDto> client = (GlobalInteractionClient<AddInventoryRequestDto>) ApplicationContextProvider
+							.getBean("globalInteractionClient");
+					AddInventoryRequestDto addInventoryRequestDto = new AddInventoryRequestDto();
+					setValues(addInventoryRequestDto);
+					 client.write("inventory/addinventory/",
+							HttpMethod.POST, addInventoryRequestDto,
+							String.class);
 
 				}
 
@@ -196,8 +229,9 @@ public class AddIventoryController implements Initializable {
 			@Override
 			public void handle(ActionEvent arg0) {
 				if (expiryD.getValue() != null) {
-					//expiryDatePicker.getEditor().setText(expiryDatePicker.getValue().format(DateTimeFormatter.ISO_LOCAL_DATE));
-					expiryDate = Date.from(expiryD.getValue().atStartOfDay(ZoneId.systemDefault()).toInstant());
+					// expiryDatePicker.getEditor().setText(expiryDatePicker.getValue().format(DateTimeFormatter.ISO_LOCAL_DATE));
+					expiryDate = Date.from(expiryD.getValue()
+							.atStartOfDay(ZoneId.systemDefault()).toInstant());
 				}
 			}
 		});
@@ -207,8 +241,9 @@ public class AddIventoryController implements Initializable {
 			@Override
 			public void handle(ActionEvent arg0) {
 				if (purchaseD.getValue() != null) {
-					//purchaseDatePicker.getEditor().setText(purchaseDatePicker.getValue().format(DateTimeFormatter.ISO_LOCAL_DATE));
-					purchaseDate = Date.from(purchaseD.getValue().atStartOfDay(ZoneId.systemDefault()).toInstant());
+					// purchaseDatePicker.getEditor().setText(purchaseDatePicker.getValue().format(DateTimeFormatter.ISO_LOCAL_DATE));
+					purchaseDate = Date.from(purchaseD.getValue()
+							.atStartOfDay(ZoneId.systemDefault()).toInstant());
 
 				}
 			}
@@ -216,80 +251,112 @@ public class AddIventoryController implements Initializable {
 	}
 
 	private boolean validateBeforeSave() {
-		if (lotNo==null&&!lotNoC.isSelected()) {
+		if (lotNo == null && !lotNoC.isSelected()) {
 			Alert alert = new Alert(AlertType.ERROR);
-			alert.setHeaderText(ApplicationContextProvider.getMessage("label.global.mandatoryValidation", null, Locale.US));
-			alert.setContentText(ApplicationContextProvider.getMessage("text.mandatory.error.lotNo", null, Locale.US));
+			alert.setHeaderText(ApplicationContextProvider.getMessage(
+					"label.global.mandatoryValidation", null, Locale.US));
+			alert.setContentText(ApplicationContextProvider.getMessage(
+					"text.mandatory.error.lotNo", null, Locale.US));
 			alert.showAndWait();
 			return false;
 		}
 		if (medicineId == null) {
 			Alert alert = new Alert(AlertType.ERROR);
-			alert.setHeaderText(ApplicationContextProvider.getMessage("label.global.mandatoryValidation", null, Locale.US));
-			alert.setContentText(ApplicationContextProvider.getMessage("text.mandatory.error.medicine", null, Locale.US));
+			alert.setHeaderText(ApplicationContextProvider.getMessage(
+					"label.global.mandatoryValidation", null, Locale.US));
+			alert.setContentText(ApplicationContextProvider.getMessage(
+					"text.mandatory.error.medicine", null, Locale.US));
 			alert.showAndWait();
 			return false;
 		}
 		if (locationId == null) {
 			Alert alert = new Alert(AlertType.ERROR);
-			alert.setHeaderText(ApplicationContextProvider.getMessage("label.global.mandatoryValidation", null, Locale.US));
-			alert.setContentText(ApplicationContextProvider.getMessage("text.mandatory.error.location", null, Locale.US));
+			alert.setHeaderText(ApplicationContextProvider.getMessage(
+					"label.global.mandatoryValidation", null, Locale.US));
+			alert.setContentText(ApplicationContextProvider.getMessage(
+					"text.mandatory.error.location", null, Locale.US));
 			alert.showAndWait();
 			return false;
 		}
-		if (purchaseDate==null&&lotNoC.isSelected()) {
+		if (purchaseDate == null && lotNoC.isSelected()) {
 			Alert alert = new Alert(AlertType.ERROR);
-			alert.setHeaderText(ApplicationContextProvider.getMessage("label.global.mandatoryValidation", null, Locale.US));
-			alert.setContentText(ApplicationContextProvider.getMessage("text.mandatory.error.unit", null, Locale.US));
+			alert.setHeaderText(ApplicationContextProvider.getMessage(
+					"label.global.mandatoryValidation", null, Locale.US));
+			alert.setContentText(ApplicationContextProvider.getMessage(
+					"text.mandatory.error.unit", null, Locale.US));
 			alert.showAndWait();
 			return false;
 		}
-		if (expiryDate==null) {
+		if (expiryDate == null) {
 			Alert alert = new Alert(AlertType.ERROR);
-			alert.setHeaderText(ApplicationContextProvider.getMessage("label.global.mandatoryValidation", null, Locale.US));
-			alert.setContentText(ApplicationContextProvider.getMessage("text.mandatory.error.unit", null, Locale.US));
+			alert.setHeaderText(ApplicationContextProvider.getMessage(
+					"label.global.mandatoryValidation", null, Locale.US));
+			alert.setContentText(ApplicationContextProvider.getMessage(
+					"text.mandatory.error.unit", null, Locale.US));
 			alert.showAndWait();
 			return false;
 		}
-		if (unitT.getText() == null||unitT.getText().isEmpty()) {
+		if (unitT.getText() == null || unitT.getText().isEmpty()) {
 			Alert alert = new Alert(AlertType.ERROR);
-			alert.setHeaderText(ApplicationContextProvider.getMessage("label.global.mandatoryValidation", null, Locale.US));
-			alert.setContentText(ApplicationContextProvider.getMessage("text.mandatory.error.unit", null, Locale.US));
+			alert.setHeaderText(ApplicationContextProvider.getMessage(
+					"label.global.mandatoryValidation", null, Locale.US));
+			alert.setContentText(ApplicationContextProvider.getMessage(
+					"text.mandatory.error.unit", null, Locale.US));
 			alert.showAndWait();
 			return false;
 		}
-		try
-		{
+		try {
 			Integer.parseInt(unitT.getText().trim());
-		}
-		catch (ParseException e)
-		{
+		} catch (ParseException e) {
 			Alert alert = new Alert(AlertType.ERROR);
-			alert.setHeaderText(ApplicationContextProvider.getMessage("label.global.correctFormat", null, Locale.US));
-			alert.setContentText(ApplicationContextProvider.getMessage("text.correctFormat.error.unit", null, Locale.US));
+			alert.setHeaderText(ApplicationContextProvider.getMessage(
+					"label.global.correctFormat", null, Locale.US));
+			alert.setContentText(ApplicationContextProvider.getMessage(
+					"text.correctFormat.error.unit", null, Locale.US));
 			alert.showAndWait();
 			return false;
 		}
-		if (costT.getText() == null||costT.getText().isEmpty()) {
+		if (costT.getText() == null || costT.getText().isEmpty()) {
 			Alert alert = new Alert(AlertType.ERROR);
-			alert.setHeaderText(ApplicationContextProvider.getMessage("label.global.mandatoryValidation", null, Locale.US));
-			alert.setContentText(ApplicationContextProvider.getMessage("text.mandatory.error.costPerUnit", null, Locale.US));
+			alert.setHeaderText(ApplicationContextProvider.getMessage(
+					"label.global.mandatoryValidation", null, Locale.US));
+			alert.setContentText(ApplicationContextProvider.getMessage(
+					"text.mandatory.error.costPerUnit", null, Locale.US));
 			alert.showAndWait();
 			return false;
 		}
-		
-		try
-		{
+
+		try {
 			Double.parseDouble(unitT.getText().trim());
-		}
-		catch (ParseException e)
-		{
+		} catch (ParseException e) {
 			Alert alert = new Alert(AlertType.ERROR);
-			alert.setHeaderText(ApplicationContextProvider.getMessage("label.global.correctFormat", null, Locale.US));
-			alert.setContentText(ApplicationContextProvider.getMessage("text.correctFormat.error.costPerUnit", null, Locale.US));
+			alert.setHeaderText(ApplicationContextProvider.getMessage(
+					"label.global.correctFormat", null, Locale.US));
+			alert.setContentText(ApplicationContextProvider.getMessage(
+					"text.correctFormat.error.costPerUnit", null, Locale.US));
 			alert.showAndWait();
 			return false;
 		}
 		return true;
+	}
+
+	private void setValues(AddInventoryRequestDto addInventoryRequestDto) {
+		addInventoryRequestDto.setExpiryDate(expiryDate);
+		addInventoryRequestDto.setPurchaseDate(purchaseDate == null ? null
+				: purchaseDate);
+		addInventoryRequestDto.setLocationId(locationId);
+		addInventoryRequestDto.setMedicineId(medicineId);
+		addInventoryRequestDto.setLotNo(lotNo == null ? null : lotNo);
+		if (lotNoC.isSelected()) {
+			addInventoryRequestDto.setAutoGenerateLotNo(true);
+		}
+		else 
+		{
+			addInventoryRequestDto.setAutoGenerateLotNo(false);
+		}
+		addInventoryRequestDto.setUnits(Integer.parseInt(unitT.getText().trim()));
+		addInventoryRequestDto.setCostPerUnit(BigDecimal.valueOf(Double.parseDouble((costT.getText().trim()))));
+		addInventoryRequestDto.setMvmtType("IAN");
+
 	}
 }

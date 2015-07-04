@@ -47,7 +47,7 @@ public class GlobalService<T> {
 		MyResponse myResponse = new MyResponse();
 		Map<String, String[]> queryMapNonChangeable = httpServletRequest.getParameterMap();
 		Map<String, String[]> queryMap = new HashMap<String, String[]>(queryMapNonChangeable);
-		List<Object> result = globalDAO.search(httpServletRequest, analyseOrderParameters(queryMap), analyseRestrictionParameters(queryMap));
+		List<Object> result = globalDAO.search(queryMap, analyseOrderParameters(queryMap), analyseRestrictionParameters(queryMap));
 
 		if (null == result) {
 			myResponse.setSuccess(false);
@@ -222,6 +222,15 @@ public class GlobalService<T> {
 	public MyResponse delete(T t) {
 
 		List<Object> result = globalDAO.delete(t);
+
+		return finalizeResult(result);
+	}
+	
+	public MyResponse delete(Long id) {
+		AdvancedQueryBuilder advancedQueryBuilder=new AdvancedQueryBuilder();
+		advancedQueryBuilder.addCondition(Restrictions.eq("id", id));
+		List<Object> listWithSingleEntry=this.advancedSearch(advancedQueryBuilder).getData();
+		List<Object> result = globalDAO.delete((T)listWithSingleEntry.get(0));
 
 		return finalizeResult(result);
 	}
