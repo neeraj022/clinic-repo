@@ -1,4 +1,4 @@
-package com.neeraj.ui;
+package com.neeraj.core.ui;
 
 import java.lang.reflect.Field;
 import java.lang.reflect.ParameterizedType;
@@ -6,7 +6,9 @@ import java.math.BigDecimal;
 import java.util.Date;
 import java.util.List;
 
+import org.apache.log4j.Logger;
 import org.hibernate.criterion.Restrictions;
+import org.slf4j.LoggerFactory;
 import org.springframework.util.ReflectionUtils;
 
 import com.neeraj.core.date.DateUtil;
@@ -22,6 +24,7 @@ import javafx.util.Callback;
 public class MyTable<E> {
 	private TableView<E> tableView;
 	private Class<E> persistentClass;
+	private Logger logger=Logger.getLogger(MyTable.class);
 
 	public MyTable(TableView<E> tableView, Class<E> parameterType) {
 		this.tableView = tableView;
@@ -94,7 +97,7 @@ public class MyTable<E> {
 
 			@Override
 			public TableCell<E, Date> call(TableColumn<E, Date> arg0) {
-
+				
 				return new TableCell<E, Date>() {
 					@Override
 					public void updateItem(final Date value, final boolean empty) {
@@ -112,6 +115,13 @@ public class MyTable<E> {
 							}
 
 							this.setText(value.toString());
+						}
+						else
+						{
+							this.setText(null);
+							this.getTableRow().getStyleClass().remove("expired-date");
+							this.getTableRow().getStyleClass().remove("almost-expired-date");
+							this.getTableRow().getStyleClass().remove("about-to-expired-date");
 						}
 					}
 				};

@@ -13,8 +13,8 @@ import com.neeraj.clinic.model.responsedtos.LotNoResponseDto;
 import com.neeraj.core.generics.GlobalInteractionClient;
 import com.neeraj.core.generics.MyResponse;
 import com.neeraj.core.spring.ApplicationContextProvider;
-import com.neeraj.ui.CommonLookup;
-import com.neeraj.ui.QueryBuilder;
+import com.neeraj.core.ui.CommonLookup;
+import com.neeraj.core.ui.QueryBuilder;
 
 public class CommonLookups {
 	

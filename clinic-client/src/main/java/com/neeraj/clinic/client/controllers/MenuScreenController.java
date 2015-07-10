@@ -15,7 +15,7 @@ import javafx.stage.Stage;
 import org.apache.log4j.Logger;
 
 import com.neeraj.core.spring.ApplicationContextProvider;
-import com.neeraj.ui.CommonCallingBase;
+import com.neeraj.core.ui.CommonCallingBase;
 
 public class MenuScreenController implements Initializable {
 

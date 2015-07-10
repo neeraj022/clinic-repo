@@ -40,22 +40,25 @@ public class InventoryService extends GlobalService<Inventory> {
 	public MyResponse getInventoryMainScreenData(InventoryMainScreenRequestDto requestDto) {
 		return finalizeResult(inventoryDAO.getInventoryMainScreenData(requestDto));
 	}
-	
+
 	public MyResponse getLotNo() {
 		return finalizeResult(inventoryDAO.getLotNo());
 	}
-	
+
 	@Transactional
-	public String addInventory(AddInventoryRequestDto addInventoryRequestDto) {
-		if(addInventoryRequestDto.isAutoGenerateLotNo())
-		{
+	public MyResponse addInventory(AddInventoryRequestDto addInventoryRequestDto) {
+		if (addInventoryRequestDto.isAutoGenerateLotNo()) {
 			addInventoryRequestDto.setLotNo(String.valueOf(System.currentTimeMillis()));
-			addInventoryRequestDto.setPurchaseDate(new Date());
+			if (addInventoryRequestDto.getPurchaseDate() == null) {
+				addInventoryRequestDto.setPurchaseDate(new Date());
+			}
 		}
-		InventoryManipulation inventoryManipulation=new InventoryManipulation();
+		InventoryManipulation inventoryManipulation = new InventoryManipulation();
 		inventoryManipulation.inventoryAddRemove(addInventoryRequestDto);
-		
-		return "Success";
+		MyResponse myResponse = new MyResponse();
+		myResponse.setSuccess(true);
+		myResponse.setData(null);
+		return myResponse;
 	}
 
 }

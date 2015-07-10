@@ -6,7 +6,7 @@ import javafx.stage.Stage;
 import org.apache.log4j.Logger;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 
-import com.neeraj.ui.CommonCallingBase;
+import com.neeraj.core.ui.CommonCallingBase;
 
 public class LauncherApp extends Application {
 

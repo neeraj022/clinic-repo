@@ -44,7 +44,7 @@ public class InventoryController extends GlobalController<Inventory> {
 	
 	@RequestMapping(method = RequestMethod.POST, value = "/addinventory", produces = { "application/json" })
 	@ResponseBody
-	public String addInventory(@RequestBody AddInventoryRequestDto addInventoryRequestDto) {
+	public MyResponse addInventory(@RequestBody AddInventoryRequestDto addInventoryRequestDto) {
 		return inventoryService.addInventory(addInventoryRequestDto);
 
 	}

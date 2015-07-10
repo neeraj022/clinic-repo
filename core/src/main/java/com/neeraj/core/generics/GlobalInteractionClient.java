@@ -24,7 +24,7 @@ import org.apache.http.client.methods.HttpEntityEnclosingRequestBase;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.neeraj.core.spring.ApplicationContextProvider;
 import com.neeraj.core.spring.AdvancedQueryBuilder;
-import com.neeraj.ui.QueryBuilder;
+import com.neeraj.core.ui.QueryBuilder;
 
 public class GlobalInteractionClient<Req> {
 
@@ -32,18 +32,18 @@ public class GlobalInteractionClient<Req> {
 	private Logger logger = Logger.getLogger(GlobalInteractionClient.class);
 
 	// Read method
-	public MyResponse read(String url,QueryBuilder queryBuilder,Class response) {
+	public MyResponse read(String url, QueryBuilder queryBuilder, Class response) {
 		MyResponse myResponse = new MyResponse();
 		HttpMethod httpMethod = HttpMethod.GET;
 		HttpHeaders httpHeaders = new HttpHeaders();
 		HttpEntity<MyResponse> httpEntity = new HttpEntity<MyResponse>(httpHeaders);
 		RestTemplate restTemplate = new RestTemplate();
 		ResponseEntity<MyResponse> responseEntity = null;
-		responseEntity = restTemplate.exchange(this.getFullUrl(url)+appendGETConditions(queryBuilder), httpMethod, httpEntity, MyResponse.class);
-		logger.debug("Final URL called is: "+this.getFullUrl(url)+appendGETConditions(queryBuilder));
+		responseEntity = restTemplate.exchange(this.getFullUrl(url) + appendGETConditions(queryBuilder), httpMethod, httpEntity, MyResponse.class);
+		logger.debug("Final URL called is: " + this.getFullUrl(url) + appendGETConditions(queryBuilder));
 		logger.debug("Response entity received from service side: " + responseEntity.toString());
 		try {
-			myResponse = this.setProperData(responseEntity, url,response);
+			myResponse = this.setProperData(responseEntity, url, response);
 		} catch (ClassNotFoundException e) {
 			logger.debug(e.getLocalizedMessage());
 			e.printStackTrace();
@@ -51,49 +51,46 @@ public class GlobalInteractionClient<Req> {
 
 		return myResponse;
 	}
-	
-	//add httpMethod.GET parameters in the URL
-	public String appendGETConditions(QueryBuilder queryBuilder)
-	{
-		String stringForAppendingGetConditions="";
-		if(queryBuilder!=null&&queryBuilder.getQueryBuilderMap().size()!=0)
-		{	stringForAppendingGetConditions="?";
-			for(Map.Entry<String, String> entry:queryBuilder.getQueryBuilderMap().entrySet())
-			{
-				stringForAppendingGetConditions=stringForAppendingGetConditions+entry.getKey()+"="+entry.getValue()+"&";
+
+	// add httpMethod.GET parameters in the URL
+	public String appendGETConditions(QueryBuilder queryBuilder) {
+		String stringForAppendingGetConditions = "";
+		if (queryBuilder != null && queryBuilder.getQueryBuilderMap().size() != 0) {
+			stringForAppendingGetConditions = "?";
+			for (Map.Entry<String, String> entry : queryBuilder.getQueryBuilderMap().entrySet()) {
+				stringForAppendingGetConditions = stringForAppendingGetConditions + entry.getKey() + "=" + entry.getValue() + "&";
 			}
-			
-			stringForAppendingGetConditions=stringForAppendingGetConditions.substring(0, stringForAppendingGetConditions.length()-1);
+
+			stringForAppendingGetConditions = stringForAppendingGetConditions.substring(0, stringForAppendingGetConditions.length() - 1);
 		}
-		
+
 		return stringForAppendingGetConditions;
 	}
-	
-	
+
 	// Advanced Read method
-		public MyResponse advancedRead(String url,AdvancedQueryBuilder queryBuilder,Class response) {
-			logger.debug("Query parameters for the URL "+this.getFullUrlForAdvancedSearch(url)+" are: "+queryBuilder.toString());
-			MyResponse myResponse = new MyResponse();
-			HttpHeaders headers = new HttpHeaders();
-			headers.setContentType(MediaType.APPLICATION_JSON);
-			HttpEntity httpEntity = new HttpEntity(queryBuilder, headers);
-			RestTemplate restTemplate = new RestTemplate();
-			ResponseEntity<MyResponse> responseEntity = null;
-			responseEntity = restTemplate.exchange(this.getFullUrlForAdvancedSearch(url), HttpMethod.POST, httpEntity, MyResponse.class);
-			logger.debug("Response entity received from service side: " + responseEntity.toString());
-			try {
-				myResponse = this.setProperData(responseEntity, url,response);
-			} catch (ClassNotFoundException e) {
-				logger.debug(e.getLocalizedMessage());
-				e.printStackTrace();
-			}
-			return myResponse;
+	public MyResponse advancedRead(String url, AdvancedQueryBuilder queryBuilder, Class response) {
+		logger.debug("Query parameters for the URL " + this.getFullUrlForAdvancedSearch(url) + " are: " + queryBuilder.toString());
+		MyResponse myResponse = new MyResponse();
+		HttpHeaders headers = new HttpHeaders();
+		headers.setContentType(MediaType.APPLICATION_JSON);
+		HttpEntity httpEntity = new HttpEntity(queryBuilder, headers);
+		RestTemplate restTemplate = new RestTemplate();
+		ResponseEntity<MyResponse> responseEntity = null;
+		responseEntity = restTemplate.exchange(this.getFullUrlForAdvancedSearch(url), HttpMethod.POST, httpEntity, MyResponse.class);
+		logger.debug("Response entity received from service side: " + responseEntity.toString());
+		try {
+			myResponse = this.setProperData(responseEntity, url, response);
+		} catch (ClassNotFoundException e) {
+			logger.debug(e.getLocalizedMessage());
+			e.printStackTrace();
 		}
+		return myResponse;
+	}
 
 	// Write Methods
 
 	// Update
-	public MyResponse write(String url, HttpMethod httpMethod, Req t,Class response) {
+	public MyResponse write(String url, HttpMethod httpMethod, Req t, Class response) {
 		MyResponse myResponse = new MyResponse();
 		HttpHeaders headers = new HttpHeaders();
 		headers.setContentType(MediaType.APPLICATION_JSON);
@@ -114,7 +111,7 @@ public class GlobalInteractionClient<Req> {
 		responseEntity = restTemplate.exchange(this.getFullUrl(url), httpMethod, httpEntity, MyResponse.class);
 		logger.debug("Response entity received from service side: " + responseEntity.toString());
 		try {
-			myResponse = this.setProperData(responseEntity, url,response);
+			myResponse = this.setProperData(responseEntity, url, response);
 		} catch (ClassNotFoundException e) {
 			logger.debug(e.getLocalizedMessage());
 			e.printStackTrace();
@@ -135,14 +132,14 @@ public class GlobalInteractionClient<Req> {
 		return ApplicationContextProvider.getMessage("serverAddress", null, null) + url;
 
 	}
-	
+
 	private String getFullUrlForAdvancedSearch(String url) {
 
-		return ApplicationContextProvider.getMessage("serverAddress", null, null) + url+"mysearch/";
+		return ApplicationContextProvider.getMessage("serverAddress", null, null) + url + "mysearch/";
 
 	}
 
-	private MyResponse setProperData(ResponseEntity<MyResponse> responseEntity, String url,Class response) throws ClassNotFoundException {
+	private MyResponse setProperData(ResponseEntity<MyResponse> responseEntity, String url, Class response) throws ClassNotFoundException {
 
 		MyResponse finalResponse = new MyResponse();
 		if (responseEntity == null) {
@@ -158,22 +155,20 @@ public class GlobalInteractionClient<Req> {
 			finalResponse.setSuccess(true);
 			// if dtoClassName is supplied, it means casting is required from
 			// LinkedHashMap to T
-			Class clazz=response;
-			/*if (getClass().getGenericSuperclass() instanceof ParameterizedType) {
-				clazz = (Class<Res>) ((ParameterizedType) getClass().getGenericSuperclass()).getActualTypeArguments()[0];
-			} else {
-				clazz = (Class<Res>) getClass().getGenericSuperclass();
-			}*/
-			/*if (t != null) {
-				clazz = t.getClass();
-			} else {
-				clazz = Class.forName(dtoName);
-			}*/
+			Class clazz = response;
+			/*
+			 * if (getClass().getGenericSuperclass() instanceof ParameterizedType) { clazz = (Class<Res>) ((ParameterizedType)
+			 * getClass().getGenericSuperclass()).getActualTypeArguments()[0]; } else { clazz = (Class<Res>) getClass().getGenericSuperclass(); }
+			 */
+			/*
+			 * if (t != null) { clazz = t.getClass(); } else { clazz = Class.forName(dtoName); }
+			 */
 
 			// if class was loaded successfully, only then conversion can happen
 			if (clazz != null) {
-				/*List<Req> list = this.processList(responseEntity, clazz);
-				finalResponse.setData((List<Object>) list);*/
+				/*
+				 * List<Req> list = this.processList(responseEntity, clazz); finalResponse.setData((List<Object>) list);
+				 */
 				finalResponse.setData(this.processList(responseEntity, clazz));
 			}
 
@@ -184,13 +179,18 @@ public class GlobalInteractionClient<Req> {
 	private List<Object> processList(ResponseEntity<MyResponse> responseEntity, Class clazz) {
 		ObjectMapper mapper = new ObjectMapper();
 		List<Object> finalList = new ArrayList<Object>();
-		for (Object object : responseEntity.getBody().getData()) {
-			Req t = (Req) mapper.convertValue(object, clazz);
+		if (responseEntity.getBody().getData() != null) {
 
-			finalList.add((Object)t);
+			for (Object object : responseEntity.getBody().getData()) {
+				Req t = (Req) mapper.convertValue(object, clazz);
+
+				finalList.add((Object) t);
+			}
+			logger.debug("Final response after processing: " + finalList.toString());
+			return finalList;
 		}
-		logger.debug("Final response after processing: " + finalList.toString());
-		return finalList;
+		else 
+			return null;
 	}
 
 	// Added static class to support body in case of DELETE method

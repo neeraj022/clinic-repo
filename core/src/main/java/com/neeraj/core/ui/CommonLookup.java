@@ -1,7 +1,8 @@
-package com.neeraj.ui;
+package com.neeraj.core.ui;
 
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
+import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.log4j.Logger;
@@ -59,6 +60,18 @@ public class CommonLookup {
 		this.setStructure(title);
 		this.setNames();
 		myTable = new MyTable(lookupTable, objectClassName);
+		
+		if(columnNames==null)
+		{
+			columnNames=new ArrayList<String>();
+			fieldNames=new ArrayList<String>();
+			Field fieldArray[]= objectClassName.getDeclaredFields();
+			for(Field field:fieldArray)
+			{
+				fieldNames.add(field.getName());
+				columnNames.add(field.getName());
+			}
+		}
 
 		for (int i = 0; i < columnNames.size(); i++) {
 			myTable.addColumn(columnNames.get(i), fieldNames.get(i), 80d);
@@ -68,6 +81,10 @@ public class CommonLookup {
 			tableData.add(object);
 		}
 		myTable.setItems(tableData);
+		
+		//search field actions
+		searchFilter();
+		
 
 	}
 
@@ -145,7 +162,7 @@ public class CommonLookup {
 			}
 		});
 
-		searchFilter();
+		
 	}
 
 	private void setFinalDto(Object clickDto, Object finalDto) {
@@ -161,7 +178,9 @@ public class CommonLookup {
 	}
 
 	private void searchFilter() {
-		searchField.textProperty().addListener(new ChangeListener<String>() {
+		CommonlyUsedMethods commonlyUsedMethods=new CommonlyUsedMethods();
+		commonlyUsedMethods.setTextFieldAsSearchField(myTable, searchField, tableData, filterData, dataList, objectClassName, fieldNames);
+		/*searchField.textProperty().addListener(new ChangeListener<String>() {
 
 			@Override
 			public void changed(ObservableValue<? extends String> arg0, String oldValue, String newValue) {
@@ -198,7 +217,7 @@ public class CommonLookup {
 				}
 
 			}
-		});
+		});*/
 
 	}
 }

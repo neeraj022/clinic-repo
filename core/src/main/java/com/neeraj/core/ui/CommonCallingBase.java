@@ -1,4 +1,4 @@
-package com.neeraj.ui;
+package com.neeraj.core.ui;
 
 import java.io.IOException;
 import java.util.Locale;

@@ -48,10 +48,11 @@ import com.neeraj.core.date.DateUtil;
 import com.neeraj.core.generics.GlobalInteractionClient;
 import com.neeraj.core.generics.MyResponse;
 import com.neeraj.core.spring.ApplicationContextProvider;
-import com.neeraj.ui.CommonCallingBase;
-import com.neeraj.ui.CommonLookup;
-import com.neeraj.ui.MyTable;
-import com.neeraj.ui.QueryBuilder;
+import com.neeraj.core.ui.CommonCallingBase;
+import com.neeraj.core.ui.CommonLookup;
+import com.neeraj.core.ui.CommonlyUsedMethods;
+import com.neeraj.core.ui.MyTable;
+import com.neeraj.core.ui.QueryBuilder;
 
 public class InventoryManagementController implements Initializable {
 	Logger logger = Logger.getLogger(InventoryManagementController.class);
@@ -92,7 +93,8 @@ public class InventoryManagementController implements Initializable {
 
 	private MyTable<InventoryMainScreenResponseDto> myTable;
 	private ObservableList<InventoryMainScreenResponseDto> mainScreenObservableList = FXCollections.observableArrayList();
-
+	private ObservableList<InventoryMainScreenResponseDto> filterObservableList = FXCollections.observableArrayList();
+	
 	public void initialize(URL arg0, ResourceBundle arg1) {
 		setNames();
 		setActions();
@@ -379,6 +381,8 @@ public class InventoryManagementController implements Initializable {
 					mainScreenObservableList.add((InventoryMainScreenResponseDto) o);
 				}
 				myTable.setItems(mainScreenObservableList);
+				CommonlyUsedMethods commonlyUsedMethods=new CommonlyUsedMethods();
+				commonlyUsedMethods.setTextFieldAsSearchField(myTable, tableSearch, mainScreenObservableList, filterObservableList, a.getData(), InventoryMainScreenResponseDto.class);
 			}
 		} /*else {
 			Alert alert = new Alert(AlertType.ERROR);
